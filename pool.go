@@ -106,6 +106,9 @@ func (p *Pool) purge() {
 		for _, v := range p.idle {
 			// If the client has an error then exclude it from the pool
 			if v.pc.Client.Errored {
+				fmt.Println("gremtune: Encountered connection in errored state. Attempting to close the connection.")
+				v.pc.Client.Close()
+				p.release()
 				continue
 			}
 
